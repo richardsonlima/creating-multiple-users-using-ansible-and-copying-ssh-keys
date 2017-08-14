@@ -1,5 +1,5 @@
 ---
-- hosts: jumpServer #modify your server list
+- hosts: webservers #modify your server list
   remote_user: root
 
   tasks:
