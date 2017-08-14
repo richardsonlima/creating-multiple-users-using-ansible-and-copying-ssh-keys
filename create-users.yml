@@ -1,0 +1,14 @@
+---
+- hosts: jumpServer #modify your server list
+  remote_user: root
+
+  tasks:
+  - include_vars: users.yml
+  - name: Creating users to Jump Server
+    user: name="{{ item.username}}"
+    with_items: "{{ users }}"
+
+  - name: Placing SSH Key to Authorized Key
+  #please note that this code assumes as if the public-private key pair is generated, all public users (created above) have public keys copied at one place i.e. keyfiles directory for the ease
+    authorized_key: user="{{item.username}}" key="{{ lookup('file', './keyfiles/authorized_keys.{{ item.username}}.pub')}}"
+    with_items: "{{ users }}"
